@@ -3,8 +3,6 @@ import time
 import json
 import browsers
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 class NamUsPerson(object):
 	def __init__(self, case_num, name, date_last_seen, loc, sex, race, age):
@@ -78,7 +76,7 @@ def parse_state(browser, state):
 	return all_cases
 
 browser = browsers.Firefox()
-state = "california"
+state = "alabama"
 cases = parse_state(browser, state)
 f = open(state + ".json", "w")
 f.write(json.dumps(cases, sort_keys=True, indent=4, separators=(',', ': ')))
