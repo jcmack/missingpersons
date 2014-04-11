@@ -1,5 +1,6 @@
 import us
 import time
+import json
 import browsers
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -39,36 +40,47 @@ def parse_results(table, timeout=10):
         tbl.append(dct)
     return tbl
 
+def parse_state(browser, state):
+	browser.get("https://www.findthemissing.org/en")
+	#search by state
+	select_state(browser, state)
+	browser.find_element_by_name("commit").click()
 
+	#select to show 100 entries per page
+	elem = browser.wait_until_clickable("select.selbox", by=By.CSS_SELECTOR, timeout=120)
+	browser.select_option(elem, str(100))
+
+	#wait for new entries to show up
+	table = browser.wait_until_visible("list")
+	wait_for_table_to_load(table, 100, timeout=30)
+
+	num_cases = int(browser.wait_until_visible("search_cases_found_count").text)
+	curr_pg = 1
+	total_pgs = num_cases / 100
+	last_pg_num_cases = 0
+	if num_cases % 100 > 0:
+		total_pgs += 1
+		last_pg_num_cases = num_cases % 100
+	all_cases = []
+	#loop through the pages
+	while curr_pg <= total_pgs:
+		if curr_pg == total_pgs:
+			wait_for_table_to_load(table, last_pg_num_cases, timeout=30)
+		else:
+			wait_for_table_to_load(table, 100, timeout=30)
+		cases = parse_results(table)
+		print cases
+		print len(cases)
+		all_cases += cases
+		browser.find_element_by_id("next").click()
+		time.sleep(10)
+		curr_pg += 1
+	return all_cases
 
 browser = browsers.Firefox()
-browser.get("https://www.findthemissing.org/en")
-
-select_state(browser, "Alabama")
-browser.find_element_by_name("commit").click()
-
-elem = browser.wait_until_clickable("select.selbox", by=By.CSS_SELECTOR, timeout=30)
-browser.select_option(elem, str(100))
-table = browser.wait_until_visible("list")
-num_cases = int(browser.wait_until_visible("search_cases_found_count").text)
-
-wait_for_table_to_load(table, 100, timeout=30)
-curr_pg = 1
-total_pgs = num_cases / 100
-last_pg_num_cases = 0
-if num_cases % 100 > 0:
-	total_pgs + 1
-	last_pg_num_cases = num_cases % 100
-print curr_pg
-print total_pgs
-
-print parse_results(table)
-print num_cases
-#for state in us.states.STATES:
-#	print state.name
-
-browser.find_element_by_id("next").click()
-curr_pg += 1
-table = browser.wait_until_visible("list")
-
-wait_for_table_to_load(table, 100, timeout=30)
+state = "california"
+cases = parse_state(browser, state)
+f = open(state + ".json", "w")
+f.write(json.dumps(cases, sort_keys=True, indent=4, separators=(',', ': ')))
+f.close()
+browser.close
