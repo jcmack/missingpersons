@@ -45,27 +45,27 @@ def parse_state(browser, state):
 	browser.find_element_by_name("commit").click()
 
 	#select to show 100 entries per page
-	elem = browser.wait_until_clickable("select.selbox", by=By.CSS_SELECTOR, timeout=120)
-	browser.select_option(elem, str(100))
+	#elem = browser.wait_until_clickable("select.selbox", by=By.CSS_SELECTOR, timeout=120)
+	#browser.select_option(elem, str(100))
 
 	#wait for new entries to show up
 	table = browser.wait_until_visible("list")
-	wait_for_table_to_load(table, 100, timeout=30)
+	wait_for_table_to_load(table, 10, timeout=30)
 
 	num_cases = int(browser.wait_until_visible("search_cases_found_count").text)
 	curr_pg = 1
-	total_pgs = num_cases / 100
+	total_pgs = num_cases / 10
 	last_pg_num_cases = 0
-	if num_cases % 100 > 0:
+	if num_cases % 10 > 0:
 		total_pgs += 1
-		last_pg_num_cases = num_cases % 100
+		last_pg_num_cases = num_cases % 10
 	all_cases = []
 	#loop through the pages
 	while curr_pg <= total_pgs:
 		if curr_pg == total_pgs:
 			wait_for_table_to_load(table, last_pg_num_cases, timeout=30)
 		else:
-			wait_for_table_to_load(table, 100, timeout=30)
+			wait_for_table_to_load(table, 10, timeout=30)
 		cases = parse_results(table)
 		print cases
 		print len(cases)
