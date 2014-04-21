@@ -1,5 +1,8 @@
 case_number
-source
+org
+agency
+	name
+	contact
 date
 city
 state
@@ -13,8 +16,8 @@ sex
 race
 eye_color
 hair_color
+height
 weight
 photo
 aged_photo
 profile
-
