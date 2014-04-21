@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException
 class Earnhardt(webdriver.Remote):
     def __init__(self):
         super(Earnhardt, self).__init__()
+        self.implicitly_wait(10)
 
     def select_option(self, elem, option):
         for option_elem in elem.find_elements_by_tag_name("option"):

@@ -25,9 +25,7 @@ def create_new_record():
 		"hair_color" : "",
 		"weight" : "",
 		"photo" : "",
-		"aged_photo" : "",
-		"ncmc_profile" : "",
-		"namus_profile" : ""
+		"aged_photo" : ""
 	})
 
 def convert_date(d):

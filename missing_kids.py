@@ -63,9 +63,15 @@ for pg in range(1, pgs + 1):
 		new_person["sex"] = detailed_person["sex"].lower()
 		new_person["race"] = detailed_person["race"].lower()
 		eye_color = detailed_person["eyeColor"].lower()
-		if eye_color == "black":
-			eye_color = "brown"
+		if eye_color:
+			eye_color = "unknown"
+		elif eye_color == "black":
+			eye_color = "brown"	
 		new_person["eye_color"] = eye_color
+		
+		hair_color = detailed_person["hairColor"].lower()
+		if hair_color:
+			hair_color = "unknown"
 		new_person["hair_color"] = detailed_person["hairColor"].lower()
 	
 		if eye_color in eyes.keys():
