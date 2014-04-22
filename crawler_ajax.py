@@ -29,7 +29,7 @@ def parse_state(browser, state):
 	#browser.select_option(elem, str(100))
 
 	#wait for new entries to show up
-	table = browser.wait_until_visible("list")
+	table = browser.wait_until_visible("list", timeout=30)
 	#wait_for_table_to_load(table, 10, timeout=30)
 
 	browser.get("https://www.findthemissing.org/en/ajax/search_results?page=1&rows=100&sidx=DateLKA&sord=desc&_search=false")
@@ -95,6 +95,7 @@ def parse_state(browser, state):
 		#circumstance
 		new_person["city"] = common.capitalize(browser.find_element_by_css_selector("div.column1-unit > table > tbody > tr > td.view_field").text)
 		new_person["state"] = common.capitalize(browser.find_element_by_xpath("//div[@id='circumstances']/div/table/tbody/tr[2]/td[2]").text)
+		new_person["county"] = common.capitalize(browser.find_element_by_xpath("//div[@id='circumstances']/div/table/tbody/tr[4]/td[2]").text)
 		new_person["country"] = "US"
 		try:
 			new_person["circumstance"] = browser.find_element_by_id("case_Circumstances").text
@@ -115,7 +116,11 @@ def parse_state(browser, state):
 		browser.find_element_by_link_text("Investigating Agency").click()
 		time.sleep(3)
 
-		new_person["agency_name"] = browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[2]/td[2]").text + " (" + browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[6]/td[2]").text + ")"
+		state = browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[6]/td[2]").text 
+		state_paren = ""
+		if state:
+			state_paren = " (" + state + ")"
+		new_person["agency_name"] = browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[2]/td[2]").text + state_paren
 		new_person["agency_contact"] = browser.find_element_by_xpath("//div[@id='police_information']/div/table/tbody/tr[4]/td[2]").text
 		
 		#print new_person
@@ -142,7 +147,7 @@ def parse_state(browser, state):
 	return missing_persons
 
 browser = browsers.Firefox()
-state = "Hawaii"
+state = "California"
 cases = parse_state(browser, state)
 f = open(state + ".json", "w")
 f.write(json.dumps(cases, sort_keys=True, indent=4, separators=(',', ': ')))

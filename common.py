@@ -13,6 +13,7 @@ def create_new_record():
 		"date" : "", 
 		"city" : "",
 		"state" : "",
+		"county" : "",
 		"country" : "",
 		"circumstance" : "",
 		"first_name" : "",
@@ -100,8 +101,12 @@ def convert_state_abbrev(state_abbrev):
 
 def capitalize(s):
 	if s:
-		return s[0].upper() + s[1:].lower()
-	return s
+		arr = s.strip().split(" ")
+		rets = ""
+		for subs in arr:
+			rets += subs[0].upper() + subs[1:].lower() + " "
+		return rets.strip()
+	return ""
 
 def clean_race(race):
 	races = ["White", "Black/African American", "Asian or Pacific Islander", "Native American", "Non-White Hispanic/Latino", "White Hispanic/Latino", "Other", "Unknown"]
@@ -148,3 +153,4 @@ def clean_hair_color(hair_color):
 	elif hair_color.lower() == "blond/strawberry":
 		return "Blonde"
 	return "Unknown"
+

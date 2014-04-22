@@ -7,7 +7,7 @@ uri = "http://www.missingkids.com"
 json_srv_uri = uri + "/missingkids/servlet/JSONDataServlet"
 search_uri = "?action=publicSearch"
 child_detail_uri = "?action=childDetail"
-session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=All&missCountry=US")
+session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=CA&missCountry=US")
 
 response = session.get(json_srv_uri + search_uri + "&searchLang=en_US&goToPage=1")
 dct = json.loads(response.text)
@@ -35,9 +35,13 @@ for pg in range(1, pgs + 1):
         new_person["org"] = person["orgPrefix"]
         new_person["org_contact"] = detailed_person["orgContactInfo"]
 
+        #skip unidentified remains cases
+        if  new_person["org_name"] == "NCMEC-Unidentified":
+            continue
+
         if detailed_person["altContact"]:
             (agency_name, agency_phone) = common.extract_agency_info(detailed_person["altContact"])
-            new_person["agency_name"] = agency_name
+            new_person["agency_name"] = agency_name.replace("  ", " ")
             new_person["agency_contact"] = agency_phone
 
         #circumstance
@@ -45,6 +49,9 @@ for pg in range(1, pgs + 1):
             new_person["date"] = common.clean_date(person["missingDate"])
         new_person["circumstance"] = detailed_person["circumstance"]
         new_person["city"] = common.capitalize(person["missingCity"])
+        new_person["county"] = common.capitalize(person["missingCounty"])
+
+        #skip US terrorities
         try:
             new_person["state"] = common.convert_state_abbrev(person["missingState"])
         except KeyError:
@@ -67,7 +74,6 @@ for pg in range(1, pgs + 1):
                     new_person["age"] = float(person["approxAge"].lower().replace("months", "").strip())/12.0 
                 elif "-" in person["approxAge"]:
                     new_person["age"] = float(person["approxAge"].split("-")[1])
-            print json.dumps(detailed_person, sort_keys=True, indent=4, separators=(',', ': '))
         new_person["sex"] = common.capitalize(detailed_person["sex"])
         new_person["race"] = common.clean_race(detailed_person["race"])
         new_person["eye_color"] = common.clean_eye_color(detailed_person["eyeColor"])
@@ -90,5 +96,5 @@ for pg in range(1, pgs + 1):
         missing_persons.append(new_person)
         #print json.dumps(new_person, sort_keys=True, indent=4, separators=(',', ': '))
 
-f = open('ncmc.json', 'w')
-f.write(json.dumps(missing_persons, sort_keys=True, indent=4, separators=(',', ': ')))
+f = open('ncmc_ca.json', 'w')
+f.write(json.dumps(missing_persons, sort_keys=False, indent=4, separators=(',', ': ')))
