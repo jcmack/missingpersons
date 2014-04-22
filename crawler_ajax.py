@@ -37,7 +37,9 @@ def parse_state(browser, state):
 	pgs = int(dct["total"])
 	print "found {} pages".format(pgs)
 	missing_persons = []
-
+	races = {}
+	eyes = {}
+	hairs = {}
 	person = dct["rows"][5]
 	for person in dct["rows"]:
 		new_person = common.create_new_record()
@@ -48,9 +50,9 @@ def parse_state(browser, state):
 		new_person["org_contact"] = "1-855-626-7600"
 
 		#personal characteristics
-		new_person["sex"] =  person["cell"][4].lower()
-		new_person["race"] =  person["cell"][5].lower()
-		new_person["age"] =  person["cell"][6]
+		new_person["sex"] = common.capitalize(person["cell"][4])
+		new_person["race"] = person["cell"][5]
+		new_person["age"] = float(person["cell"][6])
 
 		arr = person["id"].split("_")
 		browser.get("https://www.findthemissing.org/en/cases/" + arr[0] + "/" + arr[1])
@@ -61,11 +63,20 @@ def parse_state(browser, state):
 
 		#case info
 		new_person["photo"] = browser.find_element_by_css_selector("dt.photo > img").get_attribute("src")
-		new_person["first_name"] = browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[2]/td[2]").text.upper()
-		new_person["middle_name"] = browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[3]/td[2]").text.upper()
-		new_person["last_name"] = browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[4]/td[2]").text.upper()
+		new_person["first_name"] = common.capitalize(browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[2]/td[2]").text)
+		new_person["middle_name"] = common.capitalize(browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[3]/td[2]").text.replace("\"", ""))
+		new_person["last_name"] = common.capitalize(browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[4]/td[2]").text)
 		date = browser.find_element_by_xpath("//div[@id='case_information']/div/table/tbody/tr[6]/td[2]").text
-		new_person["date"] = common.convert_date(date)
+		new_person["date"] = common.clean_date(date)
+
+		#determining white or non-white hispanic
+		if new_person["race"] == "White" or new_person["race"] == "Other":
+			ethnicity = browser.find_element_by_xpath("//div[@id='case_information']/div[2]/table/tbody/tr[4]/td[2]").text
+			if ethnicity == "Hispanic/Latino" and new_person["race"] == "White":
+				new_person["race"] = "White Hispanic/Latino"
+			if ethnicity == "Hispanic/Latino" and new_person["race"] == "Other":
+				new_person["race"] = "Non-White Hispanic/Latino"
+		new_person["race"] = common.clean_race(new_person["race"]) 
 
 		height = browser.find_element_by_xpath("//div[@id='case_information']/div[2]/table/tbody/tr[6]/td[2]").text
 		if "to" in height:
@@ -82,8 +93,8 @@ def parse_state(browser, state):
 		time.sleep(3)
 
 		#circumstance
-		new_person["city"] = browser.find_element_by_css_selector("div.column1-unit > table > tbody > tr > td.view_field").text.upper()
-		new_person["state"] = browser.find_element_by_xpath("//div[@id='circumstances']/div/table/tbody/tr[2]/td[2]").text.upper()
+		new_person["city"] = common.capitalize(browser.find_element_by_css_selector("div.column1-unit > table > tbody > tr > td.view_field").text)
+		new_person["state"] = common.capitalize(browser.find_element_by_xpath("//div[@id='circumstances']/div/table/tbody/tr[2]/td[2]").text)
 		new_person["country"] = "US"
 		try:
 			new_person["circumstance"] = browser.find_element_by_id("case_Circumstances").text
@@ -94,22 +105,44 @@ def parse_state(browser, state):
 		time.sleep(3)
 
 		#physical
-		new_person["hair_color"] = browser.find_element_by_xpath("//div[@id='physical_characteristics']/div/table/tbody/tr/td[3]").text.lower()
-		new_person["eye_color"] = browser.find_element_by_xpath("//div[@id='physical_characteristics']/div/table/tbody/tr[5]/td[3]").text.lower()
-
+		new_person["hair_color"] = common.clean_hair_color(browser.find_element_by_xpath("//div[@id='physical_characteristics']/div/table/tbody/tr/td[3]").text)
+		left_eye_color = browser.find_element_by_xpath("//div[@id='physical_characteristics']/div/table/tbody/tr[5]/td[3]").text		
+		right_eye_color = browser.find_element_by_xpath("//div[@id='physical_characteristics']/div/table/tbody/tr[6]/td[3]").text
+		if left_eye_color == right_eye_color:
+			new_person["eye_color"] = common.clean_eye_color(left_eye_color)
+		else:
+			new_person["eye_color"] = "Multicolor"
 		browser.find_element_by_link_text("Investigating Agency").click()
 		time.sleep(3)
 
 		new_person["agency_name"] = browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[2]/td[2]").text + " (" + browser.find_element_by_xpath("//div[@id='police_information']/div[2]/table/tbody/tr[6]/td[2]").text + ")"
 		new_person["agency_contact"] = browser.find_element_by_xpath("//div[@id='police_information']/div/table/tbody/tr[4]/td[2]").text
 		
-		print new_person
+		#print new_person
 		missing_persons.append(new_person)
+		if new_person["race"]  in races.keys():
+			races[new_person["race"]] = races[new_person["race"]] + 1
+		else:
+			races[new_person["race"]] = 1
+		print "RACE"
+		print races
+		if new_person["eye_color"]  in eyes.keys():
+			eyes[new_person["eye_color"]] = eyes[new_person["eye_color"]] + 1
+		else:
+			eyes[new_person["eye_color"]] = 1
+		print "EYES"
+		print eyes
+		if new_person["hair_color"]  in hairs.keys():
+			hairs[new_person["hair_color"]] = hairs[new_person["hair_color"]] + 1
+		else:
+			hairs[new_person["hair_color"]] = 1
+		print "HAIRS"
+		print hairs
 
 	return missing_persons
 
 browser = browsers.Firefox()
-state = "alabama"
+state = "Hawaii"
 cases = parse_state(browser, state)
 f = open(state + ".json", "w")
 f.write(json.dumps(cases, sort_keys=True, indent=4, separators=(',', ': ')))

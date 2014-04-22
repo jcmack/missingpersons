@@ -28,7 +28,7 @@ def create_new_record():
 		"aged_photo" : ""
 	})
 
-def convert_date(d):
+def clean_date(d):
 	try:
 		date = str(datetime.datetime.strptime(d, "%b %d, %Y %I:%M:%S %p"))
 	except ValueError:
@@ -42,9 +42,6 @@ def extract_agency_info(contact):
 		agency_phone = match.group(0)
 	agency_name = contact.replace(agency_phone, "").strip()
 	return (agency_name, agency_phone)
-
-def is_std_eye_color(eye_color):
-	print "bunies"
 
 def convert_state_abbrev(state_abbrev):
 	states = {
@@ -100,3 +97,54 @@ def convert_state_abbrev(state_abbrev):
 		"WY" : "Wyoming"
 	}
 	return states[state_abbrev]
+
+def capitalize(s):
+	if s:
+		return s[0].upper() + s[1:].lower()
+	return s
+
+def clean_race(race):
+	races = ["White", "Black/African American", "Asian or Pacific Islander", "Native American", "Non-White Hispanic/Latino", "White Hispanic/Latino", "Other", "Unknown"]
+	if race in races:
+		return race
+	elif race.lower() == "white":
+		return "White"
+	elif race.lower() == "black":
+		return "Black/African American"
+	elif race.lower() == "whitehisp":
+		return "White Hispanic/Latino"
+	elif race.lower() == "biracial":
+		return "Other"
+	elif race.lower() == "pacific" or race.lower() == "asian":
+		return "Asian or Pacific Islander"
+	elif race.lower() == "hispanic":
+		return "Non-White Hispanic/Latino"
+	elif race.lower() == "amind":
+		return "Native American"
+	elif race.lower() == "white":
+		return "White"
+	return "Unknown"
+
+def clean_eye_color(eye_color):
+	eye_colors = ["Blue", "Brown", "Hazel", "Gray", "Green", "Pink", "Maroon", "Black", "Multicolor"]
+	if eye_color in eye_colors:
+		return eye_color
+	if capitalize(eye_color) in eye_colors:
+		return capitalize(eye_color)
+	return "Unknown"
+
+def clean_hair_color(hair_color):
+	hair_colors = ["Brown", "Sandy", "Black", "Gray", "White", "Blonde", "Red/Auburn"]
+	if hair_color in hair_colors:
+		return hair_color
+	elif capitalize(hair_color) in hair_colors:
+		return capitalize(hair_color)
+	elif hair_color.lower() == "gray or partially gray" or hair_color.lower() == "grey":
+		return "Gray"
+	elif hair_color.lower() == "red" or hair_color.lower() == "auburn":
+		return "Red/Auburn"
+	elif hair_color.lower() == "ltbrown":
+		return "Brown"
+	elif hair_color.lower() == "blond/strawberry":
+		return "Blonde"
+	return "Unknown"
