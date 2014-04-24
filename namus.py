@@ -10,14 +10,6 @@ def select_state(browser, state):
 	elem = browser.wait_until_clickable("search_Circumstances.StateLKA", timeout=30)
 	browser.select_option(elem, state)
 
-def wait_for_table_to_load(table, rows, timeout=10):
-	index = 0
-	while index != timeout:
-		if len(table.find_elements_by_tag_name("tr")) == rows + 1:
-			break
-		time.sleep(1)
-		index += 1
-
 def parse_state(browser, state, missing_persons=None):
 	
 	if not missing_persons:
@@ -27,10 +19,6 @@ def parse_state(browser, state, missing_persons=None):
 	#search by state
 	select_state(browser, state)
 	browser.find_element_by_name("commit").click()
-
-	#select to show 100 entries per page
-	#elem = browser.wait_until_clickable("select.selbox", by=By.CSS_SELECTOR, timeout=120)
-	#browser.select_option(elem, str(100))
 
 	#wait for new entries to show up
 	table = browser.wait_until_visible("list", timeout=30)
@@ -144,12 +132,13 @@ def parse_state(browser, state, missing_persons=None):
 
 	return missing_persons
 
-f = open('ncmc_ca1.json', 'r')
-missing_persons = json.loads(f.read())
-f.close()
+#merge namus and ncmec_ca
+#f = open('data/ncmec_ca.json', 'r')
+#missing_persons = json.loads(f.read())
+#f.close()
 
 browser = browsers.Firefox()
-state = "California"
+state = "california"
 cases = parse_state(browser, state, missing_persons=missing_persons)
 f = open(state + ".json", "w")
 f.write(json.dumps(cases, sort_keys=True, indent=4, separators=(',', ': ')))

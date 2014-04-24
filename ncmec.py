@@ -96,5 +96,5 @@ for pg in range(1, pgs + 1):
         missing_persons["NCMEC_" + str(new_person["ncmec_number"])] = new_person
         #print json.dumps(new_person, sort_keys=True, indent=4, separators=(',', ': '))
 
-f = open('ncmc.json', 'w')
+f = open('ncmec.json', 'w')
 f.write(json.dumps(missing_persons, sort_keys=False, indent=4, separators=(',', ': ')))
