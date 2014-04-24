@@ -7,13 +7,13 @@ uri = "http://www.missingkids.com"
 json_srv_uri = uri + "/missingkids/servlet/JSONDataServlet"
 search_uri = "?action=publicSearch"
 child_detail_uri = "?action=childDetail"
-session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=CA&missCountry=US")
+session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=All&missCountry=US")
 
 response = session.get(json_srv_uri + search_uri + "&searchLang=en_US&goToPage=1")
 dct = json.loads(response.text)
 pgs = int(dct["totalPages"])
 print "found {} pages".format(pgs)
-missing_persons = []
+missing_persons = {}
 
 for pg in range(1, pgs + 1):
     print "on page {}".format(pg)
@@ -93,8 +93,8 @@ for pg in range(1, pgs + 1):
         if detailed_person["hasAgedPhoto"]:
             new_person["aged_photo"] = uri + "/photographs/" + person["orgPrefix"] + str(person["caseNumber"]) + "e" + str(person["seqNumber"]) + ".jpg"
         
-        missing_persons.append(new_person)
+        missing_persons["NCMEC_" + str(new_person["ncmec_number"])] = new_person
         #print json.dumps(new_person, sort_keys=True, indent=4, separators=(',', ': '))
 
-f = open('ncmc_ca.json', 'w')
+f = open('ncmc.json', 'w')
 f.write(json.dumps(missing_persons, sort_keys=False, indent=4, separators=(',', ': ')))
