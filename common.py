@@ -25,6 +25,7 @@ def create_new_record():
 		"eye_color" : "",
 		"hair_color" : "",
 		"weight" : "",
+		"height" : "",
 		"photo" : "",
 		"aged_photo" : ""
 	})
