@@ -13,10 +13,10 @@ Data was scraped from NCMEC utilizing its underlying JSON API, while NamUs data 
 Missing Persons Characteristics
 =====
 
-1. 	ncmec_number - NCMEC case number
-2. 	namus_number - NamUs case number
-3. 	org_name 
-4. 	org
+1. 	**ncmec_number** - NCMEC case number
+2. 	**namus_number** - NamUs case number
+3. 	**org_name** 
+4. 	**org**
 5. 	org_contact
 6. 	agency_name - investigating agency usually local police department 
 7. 	agency_contact - contact information for the agency
