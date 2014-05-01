@@ -1,14 +1,14 @@
 Working with Missing Persons Data
 =====
 
-While there are a number of public facing databases containing missing persons data, I have chosen to work with 
+There are a number of public databases that store missing persons data, but there exists two major problems: 
 
-- National Center for Missing & Exploited Children (NCMEC) www.missingkids.com and 
-- National Missing and Unidentified Persons Systems Missing Persons Database www.findthemissing.org. 
+- The databases do not provide public API access and
+- There is no common data standard for a missing persons case between databases. 
 
-Unfortunately both do not have public facing APIs or share a common data standard. 
+I want to collect all of the missing persons data into one common database to provide easy access to researchers and students.
 
-Data was scraped from NCMEC utilizing Requests and its underlying JSON API, while NamUs data was gathered using Selenium. Data from both sources were cleaned, standardized and linked if duplicated.
+First I crawled through the NCMEC database utilizing Requests and its underlying JSON API, while I used Selenium to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
 
 Missing Persons Characteristics
 =====
