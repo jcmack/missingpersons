@@ -23,7 +23,22 @@ After all of the data was collected and merged into a single JSON file, I wanted
 
 <code>find-us.herokuapp.com</code> - dumps all missing persons cases
 
-<code>find-us.herokuapp.com/<country_abbrev></code> - dumps all missing persons cases in country
+<code>find-us.herokuapp.com/{country_abbrev}</code> - dumps all missing persons cases in country
+<code>find-us.herokuapp.com/us</code>
+
+<code>find-us.herokuapp.com/{country_abbrev}/{state}</code> - dumps all missing persons cases in country and state
+<code>find-us.herokuapp.com/us</California<code>
+
+<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}</code> - dumps all missing persons cases in country, state and county
+<code>find-us.herokuapp.com/us/California/Los Angeles</code>
+
+<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}/{city}</code> - dumps all missing persons cases in country, state, county and city
+<code>find-us.herokuapp.com/us/California/Los Angeles/Los Angeles</code>
+
+<code>find-us.herokuapp.com/search?{param=val}</code> - dumps all missing persons cases matching that criteria
+<code>find-us.herokuapp.com/search?{param=val}&{param2=val2}</code>
+<code>find-us.herokuapp.com/search?age_start={age}&age_end={age}</code>
+
 
 Missing Persons Characteristics
 =====
