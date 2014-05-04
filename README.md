@@ -21,37 +21,37 @@ Find Us API
 
 After all of the data was collected and merged into a single JSON file, I wanted to host the information. I used [PostgreSQL](http://www.postgresql.org/) to build a database, [Flask](http://flask.pocoo.org/) to handle the API requests and [Heroku](www.heroku.com) to host everything. For proof of concept, I decided to only host a snapshot of the missing persons data for California collected April 20, 2014. 
 
-<code>find-us.herokuapp.com</code> 
+###<code>find-us.herokuapp.com</code> 
 
 dumps all missing persons cases
 
-<code>find-us.herokuapp.com/{country_abbrev}</code> 
+###<code>find-us.herokuapp.com/{country_abbrev}</code> 
 
-info: dumps all missing persons cases in country
+dumps all missing persons cases in country
 
 ex: <code>find-us.herokuapp.com/us</code>
 
-<code>find-us.herokuapp.com/{country_abbrev}/{state}</code>
+###<code>find-us.herokuapp.com/{country_abbrev}/{state}</code>
 
-info: dumps all missing persons cases in country and state
+dumps all missing persons cases in country and state
 
 ex: <code>find-us.herokuapp.com/us/California<code>
 
-<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}</code>
+###<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}</code>
 
-info: dumps all missing persons cases in country, state and county
+dumps all missing persons cases in country, state and county
 
 ex: <code>find-us.herokuapp.com/us/California/Los Angeles</code>
 
-<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}/{city}</code>
+###<code>find-us.herokuapp.com/{country_abbrev}/{state}/{county}/{city}</code>
 
-info: dumps all missing persons cases in country, state, county and city
+dumps all missing persons cases in country, state, county and city
 
 ex: <code>find-us.herokuapp.com/us/California/Los Angeles/Los Angeles</code>
 
-<code>find-us.herokuapp.com/search?{criterion=val}</code>
+###<code>find-us.herokuapp.com/search?{criterion=val}</code>
 
-info: dumps all missing persons cases matching that criterion
+dumps all missing persons cases matching that criterion
 - age
 - city
 - country
@@ -71,9 +71,9 @@ ex: <code>find-us.herokuapp.com/search?sex=Male&eye_color=Blue</code>
 
 ex: <code>find-us.herokuapp.com/search?hair_color=Blonde&county=Orange</code>
 
-<code>find-us.herokuapp.com/search?{criterion}_start={val}&{criterion}_end={val2}</code>
+###<code>find-us.herokuapp.com/search?{criterion}_start={val}&{criterion}_end={val2}</code>
 
-info: dumps all missing persons cases between {criterion}_start and {criterion}_end
+dumps all missing persons cases between {criterion}_start and {criterion}_end
 - age
 - date
 - height
@@ -85,17 +85,17 @@ ex: <code>find-us.herokuapp.com/search?date_start=2000-01-20&date_end=2000-05-20
 
 ex: <code>find-us.herokuapp.com/search?date_start=1976-05-20 00:00:00&date_end=1976-05-20 15:30:00</code>
 
-<code>find-us.herokuapp.com/identifiers/race</code>
+###<code>find-us.herokuapp.com/identifiers/race</code>
 
-info: dumps standard categories for race
+dumps standard categories for race
 
-<code>find-us.herokuapp.com/identifiers/eye_color</code>
+###<code>find-us.herokuapp.com/identifiers/eye_color</code>
 
-info: dumps standard categories for eye_color
+ dumps standard categories for eye_color
 
-<code>find-us.herokuapp.com/identifiers/hair_color</code>
+###<code>find-us.herokuapp.com/identifiers/hair_color</code>
 
-info: dumps standard categories for hair_color
+dumps standard categories for hair_color
 
 Missing Persons Characteristics
 =====
