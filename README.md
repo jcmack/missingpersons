@@ -8,7 +8,7 @@ There are a number of public databases that store missing persons data, but ther
 
 I want to collect all of the missing persons data into one common database to provide easy access to researchers and students.
 
-First I chose to focus on merging [National Missing and Unidentified Persons System (NamUs)](findthemissing.org) and [National Center for Missing & Exploited Children (NCMEC)](www.missingkids.com). I crawled through the NCMEC database utilizing [Requests](http://docs.python-requests.org/en/latest/) and its underlying JSON API, while I used [Selenium](http://docs.seleniumhq.org/) to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
+First I chose to focus on merging [National Missing and Unidentified Persons System (NamUs)](www.findthemissing.org) and [National Center for Missing & Exploited Children (NCMEC)](www.missingkids.com). I crawled through the NCMEC database utilizing [Requests](http://docs.python-requests.org/en/latest/) and its underlying JSON API, while I used [Selenium](http://docs.seleniumhq.org/) to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
 
 Crawling can be time consuming and hard to understand. I have created some iPython notebooks tutorials that walk through some of the basic building blocks of the code repository:
 
@@ -21,10 +21,9 @@ Find Us API
 
 After all of the data was collected and merged into a single JSON file, I wanted to host the information. I used [PostgreSQL](http://www.postgresql.org/) to build a database, [Flask](http://flask.pocoo.org/) to handle the API requests and [Heroku](www.heroku.com) to host everything. For proof of concept, I decided to only host a snapshot of the missing persons data for California collected April 20, 2014. 
 
-[Find Us API](find-us.herokuapp.com)
+<code>find-us.herokuapp.com</code> - dumps all missing persons cases
 
-<code>find-us.herokuapp.com<code> - dumps all missing persons cases
-
+<code>find-us.herokuapp.com/<country_abbrev></code> - dumps all missing persons cases in country
 
 Missing Persons Characteristics
 =====
