@@ -133,7 +133,7 @@ def parse_state(browser, state, missing_persons=None):
 	return missing_persons
 
 missing_persons = None
-#merge namus and ncmec_ca
+#uncomment to merge namus and ncmec_ca
 #f = open('data/ncmec_ca.json', 'r')
 #missing_persons = json.loads(f.read())
 #f.close()

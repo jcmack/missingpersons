@@ -8,7 +8,23 @@ There are a number of public databases that store missing persons data, but ther
 
 I want to collect all of the missing persons data into one common database to provide easy access to researchers and students.
 
-First I crawled through the NCMEC database utilizing Requests and its underlying JSON API, while I used Selenium to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
+First I chose to focus on merging [National Missing and Unidentified Persons System (NamUs)](findthemissing.org) and [National Center for Missing & Exploited Children (NCMEC)](www.missingkids.com). I crawled through the NCMEC database utilizing [Requests](http://docs.python-requests.org/en/latest/) and its underlying JSON API, while I used [Selenium](http://docs.seleniumhq.org/) to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
+
+Crawling can be time consuming and hard to understand. I have created some iPython notebooks tutorials that walk through some of the basic building blocks of the code repository:
+
+- [Extracting Data from NCMEC](http://nbviewer.ipython.org/gist/anonymous/4357ae2ea7bd1ffb3894)
+- [Introduction to Selenium](http://nbviewer.ipython.org/gist/jcmack/e328b6a7add74ed75f80)
+- [Extracting Data from NamUs](http://nbviewer.ipython.org/gist/anonymous/8de2535ea80dfc35c228)
+
+Find Us API
+=====
+
+After all of the data was collected and merged into a single JSON file, I wanted to host the information. I used [PostgreSQL](http://www.postgresql.org/) to build a database, [Flask](http://flask.pocoo.org/) to handle the API requests and [Heroku](www.heroku.com) to host everything. For proof of concept, I decided to only host a snapshot of the missing persons data for California collected April 20, 2014. 
+
+[Find Us API](find-us.herokuapp.com)
+
+<code>find-us.herokuapp.com<code> - dumps all missing persons cases
+
 
 Missing Persons Characteristics
 =====
