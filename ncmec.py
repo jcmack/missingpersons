@@ -7,7 +7,7 @@ uri = "http://www.missingkids.com"
 json_srv_uri = uri + "/missingkids/servlet/JSONDataServlet"
 search_uri = "?action=publicSearch"
 child_detail_uri = "?action=childDetail"
-session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=All&missCountry=US")
+session.get(json_srv_uri + search_uri + "&searchLang=en_US&search=new&subjToSearch=child&missState=CA&missCountry=US") #Change missState=All for all states
 
 response = session.get(json_srv_uri + search_uri + "&searchLang=en_US&goToPage=1")
 dct = json.loads(response.text)
@@ -96,5 +96,5 @@ for pg in range(1, pgs + 1):
         missing_persons["NCMEC_" + str(new_person["ncmec_number"])] = new_person
         #print json.dumps(new_person, sort_keys=True, indent=4, separators=(',', ': '))
 
-f = open('ncmec.json', 'w')
+f = open('ncmec_ca.json', 'w')
 f.write(json.dumps(missing_persons, sort_keys=False, indent=4, separators=(',', ': ')))

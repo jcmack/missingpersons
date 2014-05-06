@@ -8,7 +8,7 @@ There are a number of public databases that store missing persons data, but ther
 
 I want to collect all of the missing persons data into one common database to provide easy access to researchers and students.
 
-First I chose to focus on merging [National Missing and Unidentified Persons System (NamUs)](www.findthemissing.org) and [National Center for Missing & Exploited Children (NCMEC)](www.missingkids.com). I crawled through the NCMEC database utilizing [Requests](http://docs.python-requests.org/en/latest/) and its underlying JSON API, while I used [Selenium](http://docs.seleniumhq.org/) to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
+First I chose to focus on merging [National Missing and Unidentified Persons System (NamUs)](http://www.findthemissing.org) and [National Center for Missing & Exploited Children (NCMEC)](http://www.missingkids.com). I crawled through the NCMEC database utilizing [Requests](http://docs.python-requests.org/en/latest/) and its underlying JSON API, while I used [Selenium](http://docs.seleniumhq.org/) to crawl NamUs. Data from both sources were cleaned, standardized and linked if duplicated. 
 
 Crawling can be time consuming and hard to understand. I have created some iPython notebooks tutorials that walk through some of the basic building blocks of the code repository:
 
@@ -91,7 +91,7 @@ dumps standard categories for race
 
 ###<code>find-us.herokuapp.com/identifiers/eye_color</code>
 
- dumps standard categories for eye_color
+dumps standard categories for eye_color
 
 ###<code>find-us.herokuapp.com/identifiers/hair_color</code>
 
