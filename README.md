@@ -15,6 +15,7 @@ Crawling can be time consuming and hard to understand. I have created some iPyth
 - [Extracting Data from NCMEC](http://nbviewer.ipython.org/gist/anonymous/4357ae2ea7bd1ffb3894)
 - [Introduction to Selenium](http://nbviewer.ipython.org/gist/jcmack/e328b6a7add74ed75f80)
 - [Extracting Data from NamUs](http://nbviewer.ipython.org/gist/anonymous/8de2535ea80dfc35c228)
+- [Working with Find Us Missing Persons API](http://nbviewer.ipython.org/gist/anonymous/05139e3fa807aeab74e3)
 
 Find Us API
 =====
