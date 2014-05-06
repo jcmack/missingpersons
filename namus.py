@@ -132,10 +132,11 @@ def parse_state(browser, state, missing_persons=None):
 
 	return missing_persons
 
-#merge namus and ncmec_ca
-#f = open('data/ncmec_ca.json', 'r')
-#missing_persons = json.loads(f.read())
-#f.close()
+missing_persons = None
+#uncomment to merge namus and ncmec_ca
+f = open('ncmec_ca.json', 'r')
+missing_persons = json.loads(f.read())
+f.close()
 
 browser = browsers.Firefox()
 state = "california"
